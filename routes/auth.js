@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-var auth = require('../middlewares/auth');
 const { param, body, validationResult } = require('express-validator');
 const { checkLogin, signJwt } = require('../middlewares/auth');
 require('dotenv').config();
@@ -14,18 +13,16 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: 'Auth failed' });
     }
-    auth
-      .checkLogin(req.body.username, req.body.password)
-      .then(function (success) {
-        if (success === true) {
-          const userObj = { username: req.body.username };
-          const token = auth.signJwt(userObj);
-          res.status(200).json({
-            token: token,
-          });
-        }
-        res.status(400).json({ error: 'Auth failed' });
-      });
+    checkLogin(req.body.username, req.body.password).then(function (success) {
+      if (success === true) {
+        const userObj = { username: req.body.username };
+        const token = signJwt(userObj);
+        res.status(200).json({
+          token: token,
+        });
+      }
+      res.status(400).json({ error: 'Auth failed' });
+    });
   }
 );
 
@@ -41,14 +38,13 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: 'Signup failed' });
     }
-    auth
-      .signup(
-        req.body.username,
-        req.body.password,
-        req.body.firstname,
-        req.body.lastname,
-        req.body.email
-      )
+    signup(
+      req.body.username,
+      req.body.password,
+      req.body.firstname,
+      req.body.lastname,
+      req.body.email
+    )
       .then(function (result) {
         console.log(result);
         res.status(200).json({ id: result });
