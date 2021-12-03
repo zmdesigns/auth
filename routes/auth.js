@@ -11,7 +11,9 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ error: 'Auth failed. Invalid Input.' });
+      return res
+        .status(400)
+        .json({ error: 'Auth failed. Invalid Input.', data: errors });
     }
     checkLogin(req.body.username, req.body.password).then(function (success) {
       if (success === true) {
@@ -36,7 +38,9 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ error: 'Signup failed. Invalid Input.' });
+      return res
+        .status(400)
+        .json({ error: 'Signup failed. Invalid Input.', data: errors });
     }
     signup(
       req.body.username,
