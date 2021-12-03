@@ -13,4 +13,4 @@ app.get('/', function (req, res) {
   res.status(200).json({ message: 'hi' });
 });
 
-app.listen('172.31.40.196', port);
+app.listen(port);
