@@ -11,4 +11,6 @@ var connection_details = {
 };
 
 //create mysql connection pool
-export const conn = mysql.createPool(connection_details);
+const conn = mysql.createPool(connection_details);
+
+module.exports = conn;

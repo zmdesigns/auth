@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var db = requuire('../services/db.js');
+var db = require('../services/db.js');
 
 async function getLoginInfo(username) {
   try {
@@ -31,7 +31,7 @@ async function passHashMatch(password, hash) {
   return false;
 }
 
-export async function checkLogin(username, password) {
+async function checkLogin(username, password) {
   const userRow = await getLoginInfo(username);
   if (userRow === undefined) {
     return false;
@@ -43,7 +43,7 @@ export async function checkLogin(username, password) {
   return false;
 }
 
-export function signJwt(object) {
+function signJwt(object) {
   var privateKey = fs.readFileSync('/home/ubuntu/.ssh/jwtRS256.key');
   var token = jwt.sign(object, privateKey, {
     algorithm: 'RS256',
@@ -52,7 +52,7 @@ export function signJwt(object) {
   return token;
 }
 
-export function decodeJwt(token) {
+function decodeJwt(token) {
   var cert = fs.readFileSync('/home/ubuntu/.ssh/jwtRS256.key.pub');
   jwt.verify(token, cert, { algorithms: ['RS256'] }, function (err, decoded) {
     if (decoded === undefined) {
@@ -77,7 +77,7 @@ async function userExists(username, email) {
   }
 }
 
-export async function signup(username, password, firstname, lastname, email) {
+async function signup(username, password, firstname, lastname, email) {
   try {
     const doesUserExist = await userExists(username, password);
     if (doesUserExist === true) {
@@ -120,3 +120,5 @@ export async function signup(username, password, firstname, lastname, email) {
     throw err;
   }
 }
+
+module.exports = { checkLogin, signJwt, decodeJwt, signup };
