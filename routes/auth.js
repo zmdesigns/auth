@@ -6,7 +6,7 @@ const { checkLogin, signJwt } = require('../middlewares/auth');
 require('dotenv').config();
 
 router.post(
-  '/auth',
+  '/login',
   body('username').isAlpha().isLength({ min: 4, max: 20 }),
   body('password').isLength({ min: 8, max: 40 }),
   (req, res) => {
@@ -30,7 +30,7 @@ router.post(
 );
 
 router.post(
-  'signup',
+  '/signup',
   body('username').isAlpha().isLength({ min: 4, max: 20 }),
   body('password').isLength({ min: 8, max: 40 }),
   body('firstname').isAlpha().isLength({ min: 2, max: 100 }),
@@ -58,3 +58,5 @@ router.post(
       });
   }
 );
+
+module.exports = router;

@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const auth = require('./routes/auth');
 require('dotenv').config();
 
 const port = 8000;
@@ -12,5 +13,7 @@ app.use(express.json());
 app.get('/', function (req, res) {
   res.status(200).json({ message: 'hi' });
 });
+
+app.use('/auth', auth);
 
 app.listen(port);
