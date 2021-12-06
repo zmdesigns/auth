@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { param, body, validationResult } = require('express-validator');
-const { checkLogin, signJwt } = require('../middlewares/auth');
+const { checkLogin, signJwt, signup } = require('../middlewares/auth');
 require('dotenv').config();
 
 router.post(
